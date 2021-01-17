@@ -25,6 +25,7 @@ WindowManager:
     AutoRechnungenFenster:
     ManuellRechnerFenster:
     ManuellRechnungenFenster:
+    RocketLocationFenster:
 
 
 
@@ -58,7 +59,7 @@ WindowManager:
     #Button für automatische Eingaben
     Button:
         text: "Live-Berechnungen\n         [AUTO]"
-        size_hint: 0.8, 0.15
+        size_hint: 0.8, 0.1
         pos_hint: {"x":0.1, "y":0.5}
         on_release:
             app.root.current="auto_rechner"
@@ -68,17 +69,23 @@ WindowManager:
     #Button für manuelle Eingaben
     Button:
         text: "Live-Berechnungen\n      [MANUAL]"
-        size_hint: 0.8, 0.15
-        pos_hint: {"x":0.1, "y":0.3}
+        size_hint: 0.8, 0.1
+        pos_hint: {"x":0.1, "y":0.35}
         on_release:
             app.root.current="manuell_rechner"
             root.manager.transition.direction="left"
 
     Button:
         text: "Pre-Berechnungen"
-        size_hint: 0.8, 0.15
-        pos_hint: {"x":0.1, "y":0.1}
-        
+        size_hint: 0.8, 0.1
+        pos_hint: {"x":0.1, "y":0.2}
+
+
+    Button:
+        text: "Rocket-Location"
+        size_hint: 0.8, 0.1
+        pos_hint: {"x":0.1, "y":0.05}
+
 
 
 #=======================================================================================================================
@@ -388,3 +395,5 @@ WindowManager:
         on_release:
             app.root.current="home"
             root.manager.transition.direction="right"
+
+
