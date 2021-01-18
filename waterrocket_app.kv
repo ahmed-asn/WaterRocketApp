@@ -14,6 +14,7 @@
 <TextInput>:
     multiline: False
     disabled: True
+    font_size: 40
 
 #=======================================================================================================================
 #WindowManager zur Verwaltung der verschiedenen Fenster
@@ -25,6 +26,11 @@ WindowManager:
     AutoRechnungenFenster:
     ManuellRechnerFenster:
     ManuellRechnungenFenster:
+    PreRechnerFenster:
+    RaketenGleichungFenster:
+    RaketenGleichungRechnerFenster:
+    FallschirmGleichungFenster:
+    FallschirmGleichungRechnerFenster:
     RocketLocationFenster:
 
 
@@ -79,7 +85,9 @@ WindowManager:
         text: "Pre-Berechnungen"
         size_hint: 0.8, 0.1
         pos_hint: {"x":0.1, "y":0.2}
-
+        on_release:
+            app.root.current="pre_rechner"
+            root.manager.transition.direction="left"
 
     Button:
         text: "Rocket-Location"
@@ -395,5 +403,397 @@ WindowManager:
         on_release:
             app.root.current="home"
             root.manager.transition.direction="right"
+
+#=======================================================================================================================
+<PreRechnerFenster>:
+    #individueller Kivy Name für das Fenster --->
+    name: "pre_rechner"
+
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    Image:
+        source: "space2.png"
+        size_hint: 1, 1
+        pos_hint: {"x":0, "y":0.35}
+
+
+    Label:
+        text: "PRE-RECHNER"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x": 0.1, "y":0.725}
+        font_size: 130
+
+
+    #Button Raketengleichung
+    Button:
+        text: "RAKETENGLEICHUNG"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x":0.1, "y":0.475}
+        on_release:
+            app.root.current="raketengleichung"
+            root.manager.transition.direction="left"
+
+    #Button Fallschirm:
+    Button:
+        text: "FALLSCHRIM"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x":0.1, "y":0.2}
+        on_release:
+            app.root.current="fallschirmgleichung"
+            root.manager.transition.direction="left"
+
+    #HOME Button
+    Button:
+        text: "HOME"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.35, "y":0.05}
+        font_size: 40
+        on_release:
+            app.root.current="home"
+            root.manager.transition.direction="right"
+
+
+#=======================================================================================================================
+<RaketenGleichungFenster>:
+
+    #individueller Kivy Name für das Fenster --->
+    name: "raketengleichung"
+
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    Image:
+        source: "space2.png"
+        size_hint: 1, 1
+        pos_hint: {"x":0, "y":0.35}
+
+
+    Label:
+        text: "RAKETENGLEICHUNG"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x": 0.1, "y":0.725}
+        font_size: 130
+
+
+    #Label startgewicht
+    Label:
+        text: "STARTGEWICHT[kg]:"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.1, "y":0.55}
+        font_size: 60
+    TextInput:
+        id: startgewicht
+        size_hint: 0.4, 0.1
+        pos_hint: {"x":0.5, "y":0.55}
+        disabled: False
+
+    #Label leergewicht
+    Label:
+        text: "LEERGEWICHT[kg]:"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.1, "y":0.425}
+        font_size: 60
+    TextInput:
+        id: leergewicht
+        size_hint: 0.4, 0.1
+        pos_hint: {"x":0.5, "y":0.425}
+        disabled: False
+
+    #Label startdruck
+    Label:
+        text: "STARTDRUCK[P]:"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.1, "y":0.3}
+        font_size: 60
+    TextInput:
+        id: startdruck
+        size_hint: 0.4, 0.1
+        pos_hint: {"x":0.5, "y":0.3}
+        disabled: False
+
+    #Label austrittsradius
+    Label:
+        text: "AUSTRITTSRADIUS[m]:"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.1, "y":0.175}
+        font_size: 60
+    TextInput:
+        id: austrittsradius
+        size_hint: 0.4, 0.1
+        pos_hint: {"x":0.5, "y":0.175}
+        disabled: False
+
+
+    #zurück Knopf:
+    Button:
+        text: "HOME"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.15, "y":0.025}
+        font_size: 40
+        on_release:
+            app.root.current="home"
+            root.manager.transition.direction="right"
+
+    #rechne Knopf:
+    Button:
+        text: "RECHNE"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.55, "y":0.025}
+        font_size: 40
+        on_release:
+            app.root.current="raketengleichung_rechner"
+            root.manager.transition.direction="left"
+            root.rechne()
+
+
+#=======================================================================================================================
+<RaketenGleichungRechnerFenster>:
+
+    #individueller Kivy Name für das Fenster --->
+    name: "raketengleichung_rechner"
+
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    Image:
+        source: "space2.png"
+        size_hint: 1, 1
+        pos_hint: {"x":0, "y":0.35}
+
+
+    Label:
+        text: "ERGEBNISSE"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x": 0.1, "y":0.725}
+        font_size: 130
+
+
+    #Label wasser geschwndk
+    Label:
+        text: "AUSTRITTSGESCHW.[m/s]:"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.1, "y":0.55}
+        font_size: 60
+    TextInput:
+        id: austrittsgeschw
+        size_hint: 0.4, 0.1
+        pos_hint: {"x":0.5, "y":0.55}
+
+    Label:
+        text: "MAX. GESCHW[m/s]:"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.1, "y":0.4}
+        font_size: 60
+    TextInput:
+        id: max_geschw
+        size_hint: 0.4, 0.1
+        pos_hint: {"x":0.5, "y":0.4}
+
+    Label:
+        text: "MAX. HOEHE[m]:"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.1, "y":0.25}
+        font_size: 60
+    TextInput:
+        id: max_hoehe
+        size_hint: 0.4, 0.1
+        pos_hint: {"x":0.5, "y":0.25}
+
+
+    #zurück Knopf:
+    Button:
+        text: "HOME"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.15, "y":0.05}
+        font_size: 40
+        on_release:
+            app.root.current="home"
+            root.manager.transition.direction="right"
+
+    #rechne Knopf:
+    Button:
+        text: "NEU"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.55, "y":0.05}
+        font_size: 40
+        on_release:
+            app.root.current="raketengleichung"
+            root.manager.transition.direction="right"
+
+
+#=======================================================================================================================
+<FallschirmGleichungFenster>:
+
+    #individueller Kivy Name für das Fenster --->
+    name: "fallschirmgleichung"
+
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    Image:
+        source: "space2.png"
+        size_hint: 1, 1
+        pos_hint: {"x":0, "y":0.35}
+
+
+    Label:
+        text: "FALLSCHIRMGLEICHUNG"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x": 0.1, "y":0.725}
+        font_size: 130
+
+
+    #Label masse
+    Label:
+        text: "MASSE[kg]:"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.1, "y":0.55}
+        font_size: 60
+    TextInput:
+        id: masse
+        size_hint: 0.4, 0.1
+        pos_hint: {"x":0.5, "y":0.55}
+        disabled: False
+
+    #Label fallgeschw
+    Label:
+        text: "FALLGESCHW.[m/s]:"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.1, "y":0.4}
+        font_size: 60
+    TextInput:
+        id: fallgeschw
+        size_hint: 0.4, 0.1
+        pos_hint: {"x":0.5, "y":0.4}
+        disabled: False
+
+    #Label bauweise
+    Label:
+        text: "BAUWEISE:"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.1, "y":0.25}
+        font_size: 60
+    TextInput:
+        text: "SECHSECK-BAUWEISE"
+        size_hint: 0.4, 0.1
+        pos_hint: {"x":0.5, "y":0.25}
+
+    Button:
+        text: "HOME"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.15, "y":0.05}
+        font_size: 40
+        on_release:
+            app.root.current="home"
+            root.manager.transition.direction="right"
+
+    #rechne Knopf:
+    Button:
+        text: "RECHNE"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.55, "y":0.05}
+        font_size: 40
+        on_release:
+            app.root.current="fallschirmgleichung_rechner"
+            root.manager.transition.direction="left"
+            root.rechne()
+
+
+#=======================================================================================================================
+<FallschirmGleichungRechnerFenster>:
+
+
+
+    #individueller Kivy Name für das Fenster --->
+    name: "fallschirmgleichung_rechner"
+
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    Image:
+        source: "space2.png"
+        size_hint: 1, 1
+        pos_hint: {"x":0, "y":0.35}
+
+
+    Label:
+        text: "ERGEBNISSE"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x": 0.1, "y":0.725}
+        font_size: 130
+
+
+    #Label porjektionsfläche
+    Label:
+        text: "FLAECHE[m^2]:"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.1, "y":0.55}
+        font_size: 60
+    TextInput:
+        id: flaeche
+        size_hint: 0.4, 0.1
+        pos_hint: {"x":0.5, "y":0.55}
+
+    #Label seitenlaenge
+    Label:
+        text: "LAENGE[m]:"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.1, "y":0.425}
+        font_size: 60
+    TextInput:
+        id: laenge
+        size_hint: 0.4, 0.1
+        pos_hint: {"x":0.5, "y":0.425}
+
+
+
+
+    Image:
+        source: "sechseck.png"
+        size_hint: 0.5, 0.3
+        pos_hint: {"x":0.25, "y":0.1}
+
+    #zurück Knopf:
+    Button:
+        text: "HOME"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.15, "y":0.05}
+        font_size: 40
+        on_release:
+            app.root.current="home"
+            root.manager.transition.direction="right"
+
+    #rechne Knopf:
+    Button:
+        text: "NEU"
+        size_hint: 0.3, 0.1
+        pos_hint: {"x":0.55, "y":0.05}
+        font_size: 40
+        on_release:
+            app.root.current="fallschirmgleichung"
+            root.manager.transition.direction="right"
+
+
 
 
